@@ -1,8 +1,13 @@
 package org.rizki.mufrizal.boot.swagger.controller
 
-import io.swagger.annotations.*
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiResponse
+import io.swagger.annotations.ApiResponses
+import io.swagger.annotations.Authorization
 import org.rizki.mufrizal.boot.swagger.domain.Barang
-import org.rizki.mufrizal.boot.swagger.helpers.NotFoundRestHelper
+import org.rizki.mufrizal.boot.swagger.helpers.ErrorMessage
+import org.rizki.mufrizal.boot.swagger.helpers.ErrorRestHelper
 import org.rizki.mufrizal.boot.swagger.helpers.ValidationIdHelper
 import org.rizki.mufrizal.boot.swagger.helpers.swaggermapping.MappingMessage
 import org.rizki.mufrizal.boot.swagger.helpers.swaggermapping.PageBarang
@@ -39,14 +44,26 @@ import javax.validation.Valid
 class BarangController @Autowired constructor(val barangService: BarangService) : ValidationIdHelper {
 
     @ApiOperation(value = "get all barang", authorizations = [Authorization(value = "basicAuth")])
-    @ApiResponses(value = [ApiResponse(code = 200, message = "response success", response = PageBarang::class)])
+    @ApiResponses(value = [
+        ApiResponse(code = 200, message = "response success", response = PageBarang::class),
+        ApiResponse(code = 404, message = "response 404", response = ErrorMessage::class),
+        ApiResponse(code = 401, message = "response 401", response = ErrorMessage::class),
+        ApiResponse(code = 403, message = "response 403", response = ErrorMessage::class),
+        ApiResponse(code = 500, message = "response 500", response = ErrorMessage::class)
+    ])
     @GetMapping(value = ["/barangs"])
     fun getBarangs(pageable: Pageable): ResponseEntity<*> {
         return ResponseEntity(this.barangService.getBarangs(pageable), HttpStatus.OK)
     }
 
     @ApiOperation(value = "get all barang", authorizations = [Authorization(value = "basicAuth")])
-    @ApiResponses(value = [ApiResponse(code = 200, message = "response success", response = Barang::class)])
+    @ApiResponses(value = [
+        ApiResponse(code = 200, message = "response success", response = Barang::class),
+        ApiResponse(code = 404, message = "response 404", response = ErrorMessage::class),
+        ApiResponse(code = 401, message = "response 401", response = ErrorMessage::class),
+        ApiResponse(code = 403, message = "response 403", response = ErrorMessage::class),
+        ApiResponse(code = 500, message = "response 500", response = ErrorMessage::class)
+    ])
     @GetMapping(value = ["/barangs/{idBarang}"])
     fun getBarang(@PathVariable("idBarang") idBarang: String): Barang {
         this.validateSelf(idBarang)
@@ -54,7 +71,13 @@ class BarangController @Autowired constructor(val barangService: BarangService) 
     }
 
     @ApiOperation(value = "get all barang", authorizations = [Authorization(value = "basicAuth")])
-    @ApiResponses(value = [ApiResponse(code = 200, message = "response success", response = Barang::class)])
+    @ApiResponses(value = [
+        ApiResponse(code = 200, message = "response success", response = Barang::class),
+        ApiResponse(code = 404, message = "response 404", response = ErrorMessage::class),
+        ApiResponse(code = 401, message = "response 401", response = ErrorMessage::class),
+        ApiResponse(code = 403, message = "response 403", response = ErrorMessage::class),
+        ApiResponse(code = 500, message = "response 500", response = ErrorMessage::class)
+    ])
     @PostMapping(value = ["/barangs"])
     fun saveBarangs(
             @RequestBody @Valid barang: Barang): ResponseEntity<*> {
@@ -68,7 +91,13 @@ class BarangController @Autowired constructor(val barangService: BarangService) 
     }
 
     @ApiOperation(value = "get all barang", authorizations = [Authorization(value = "basicAuth")])
-    @ApiResponses(value = [ApiResponse(code = 200, message = "response success", response = Barang::class)])
+    @ApiResponses(value = [
+        ApiResponse(code = 200, message = "response success", response = Barang::class),
+        ApiResponse(code = 404, message = "response 404", response = ErrorMessage::class),
+        ApiResponse(code = 401, message = "response 401", response = ErrorMessage::class),
+        ApiResponse(code = 403, message = "response 403", response = ErrorMessage::class),
+        ApiResponse(code = 500, message = "response 500", response = ErrorMessage::class)
+    ])
     @PutMapping(value = ["/barangs/{idBarang}"])
     fun updateBarangs(
             @PathVariable("idBarang") idBarang: String,
@@ -86,7 +115,13 @@ class BarangController @Autowired constructor(val barangService: BarangService) 
     }
 
     @ApiOperation(value = "get all barang", authorizations = [Authorization(value = "basicAuth")])
-    @ApiResponses(value = [ApiResponse(code = 200, message = "response success", response = MappingMessage::class)])
+    @ApiResponses(value = [
+        ApiResponse(code = 200, message = "response success", response = MappingMessage::class),
+        ApiResponse(code = 404, message = "response 404", response = ErrorMessage::class),
+        ApiResponse(code = 401, message = "response 401", response = ErrorMessage::class),
+        ApiResponse(code = 403, message = "response 403", response = ErrorMessage::class),
+        ApiResponse(code = 500, message = "response 500", response = ErrorMessage::class)
+    ])
     @DeleteMapping(value = ["/barangs/{idBarang}"])
     fun deleteBarangs(
             @PathVariable("idBarang") idBarang: String): ResponseEntity<*> {
@@ -101,6 +136,6 @@ class BarangController @Autowired constructor(val barangService: BarangService) 
     }
 
     override fun validateSelf(id: String) {
-        this.barangService.getBarang(id).orElseThrow { NotFoundRestHelper(id = id, message = "Data Barang Tidak Tersedia") }
+        this.barangService.getBarang(id).orElseThrow { ErrorRestHelper(message = "$id Data Barang Tidak Tersedia") }
     }
 }

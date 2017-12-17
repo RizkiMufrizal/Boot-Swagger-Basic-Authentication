@@ -1,5 +1,6 @@
 package org.rizki.mufrizal.boot.swagger.configuration
 
+import org.rizki.mufrizal.boot.swagger.helpers.AccessDeniedHandlerHelper
 import org.rizki.mufrizal.boot.swagger.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -31,7 +32,13 @@ import org.springframework.security.web.access.channel.ChannelProcessingFilter
 
 @Configuration
 @EnableWebSecurity(debug = true)
-class WebSecurityConfiguration @Autowired constructor(val userRepository: UserRepository) : WebSecurityConfigurerAdapter() {
+class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
+
+    @Autowired
+    private lateinit var userRepository: UserRepository
+
+    @Autowired
+    private lateinit var accessDeniedHandlerHelper: AccessDeniedHandlerHelper
 
     @Bean
     fun passwordEncoder(): PasswordEncoder {
@@ -75,6 +82,9 @@ class WebSecurityConfiguration @Autowired constructor(val userRepository: UserRe
                 ?.addFilterBefore(CorsConfiguration(), ChannelProcessingFilter::class.java)
                 ?.csrf()
                 ?.disable()
+                ?.exceptionHandling()
+                ?.accessDeniedHandler(accessDeniedHandlerHelper)
+                ?.authenticationEntryPoint(accessDeniedHandlerHelper)
     }
 
 }

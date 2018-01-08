@@ -39,8 +39,8 @@ import javax.validation.Valid
  */
 
 @RestController
-@RequestMapping(value = ["/api"])
-@Api(value = "api", basePath = "/api", description = "Barang REST API")
+@RequestMapping(value = ["/v1/api"])
+@Api(value = "api", basePath = "/v1/api", description = "Barang REST API")
 class BarangController @Autowired constructor(val barangService: BarangService) : ValidationIdHelper {
 
     @ApiOperation(value = "get all barang", authorizations = [Authorization(value = "basicAuth")])

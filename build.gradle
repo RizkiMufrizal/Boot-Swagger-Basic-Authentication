@@ -1,8 +1,8 @@
 buildscript {
     ext {
-        kotlinVersion = '1.2.10'
-        springBootVersion = '1.5.9.RELEASE'
-        swaggerVersion = '2.7.0'
+        kotlinVersion = '1.2.21'
+        springBootVersion = '1.5.10.RELEASE'
+        swaggerVersion = '2.8.0'
     }
     repositories {
         mavenCentral()
@@ -33,6 +33,17 @@ repositories {
     mavenCentral()
 }
 
+version = '1.0'
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Boot Swagger Basic Authentication', 'Implementation-Version': version, 'Main-Class': 'org.rizki.mufrizal.boot.swagger.BootSwaggerApplication'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 dependencies {
     compile("io.springfox:springfox-swagger2:${swaggerVersion}")
     compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
@@ -40,7 +51,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-hateoas')
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-web')
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}")
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     compile('com.zaxxer:HikariCP')
     runtime('com.h2database:h2')

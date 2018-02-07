@@ -56,7 +56,7 @@ class BarangController @Autowired constructor(val barangService: BarangService) 
         return ResponseEntity(this.barangService.getBarangs(pageable), HttpStatus.OK)
     }
 
-    @ApiOperation(value = "get all barang", authorizations = [Authorization(value = "basicAuth")])
+    @ApiOperation(value = "get one barang", authorizations = [Authorization(value = "basicAuth")])
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "response success", response = Barang::class),
         ApiResponse(code = 404, message = "response 404", response = ErrorMessage::class),
@@ -70,7 +70,7 @@ class BarangController @Autowired constructor(val barangService: BarangService) 
         return this.barangService.getBarang(idBarang).orElse(null)
     }
 
-    @ApiOperation(value = "get all barang", authorizations = [Authorization(value = "basicAuth")])
+    @ApiOperation(value = "save barang", authorizations = [Authorization(value = "basicAuth")])
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "response success", response = Barang::class),
         ApiResponse(code = 404, message = "response 404", response = ErrorMessage::class),
@@ -90,7 +90,7 @@ class BarangController @Autowired constructor(val barangService: BarangService) 
         return ResponseEntity(barang1, HttpStatus.CREATED)
     }
 
-    @ApiOperation(value = "get all barang", authorizations = [Authorization(value = "basicAuth")])
+    @ApiOperation(value = "update barang", authorizations = [Authorization(value = "basicAuth")])
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "response success", response = Barang::class),
         ApiResponse(code = 404, message = "response 404", response = ErrorMessage::class),
@@ -114,7 +114,7 @@ class BarangController @Autowired constructor(val barangService: BarangService) 
         return ResponseEntity(barang1, HttpStatus.OK)
     }
 
-    @ApiOperation(value = "get all barang", authorizations = [Authorization(value = "basicAuth")])
+    @ApiOperation(value = "delete barang", authorizations = [Authorization(value = "basicAuth")])
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "response success", response = MappingMessage::class),
         ApiResponse(code = 404, message = "response 404", response = ErrorMessage::class),

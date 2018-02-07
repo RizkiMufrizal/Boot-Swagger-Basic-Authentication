@@ -35,10 +35,10 @@ class ScheduledTaskConfiguration {
 
     @Scheduled(fixedRate = 3600000)
     fun insertData() {
-        if (!this.userRepositoty.findByUsername("rizki").isPresent) {
+        if (!this.userRepositoty.findByUsername("admin").isPresent) {
             this.userRepositoty.save(User(
-                    username = "rizki",
-                    password = BCryptPasswordEncoder().encode("mufrizal"),
+                    username = "admin",
+                    password = BCryptPasswordEncoder().encode("admin"),
                     isActive = true,
                     roles = setOf("ROLE_ADMIN", "ROLE_USER")
             ))

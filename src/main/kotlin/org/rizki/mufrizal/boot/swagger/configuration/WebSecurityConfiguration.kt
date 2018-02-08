@@ -31,7 +31,7 @@ import org.springframework.security.web.access.channel.ChannelProcessingFilter
  */
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
 
     @Autowired

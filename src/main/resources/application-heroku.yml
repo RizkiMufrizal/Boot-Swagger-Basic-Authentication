@@ -39,5 +39,5 @@ logging:
     level:
         org:
             springframework:
-                web: INFO
-            hibernate: INFO
+                web: ERROR
+            hibernate: ERROR

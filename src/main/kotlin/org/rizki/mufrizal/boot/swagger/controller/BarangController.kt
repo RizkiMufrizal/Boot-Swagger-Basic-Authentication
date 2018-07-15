@@ -1,10 +1,6 @@
 package org.rizki.mufrizal.boot.swagger.controller
 
-import io.swagger.annotations.Api
-import io.swagger.annotations.ApiOperation
-import io.swagger.annotations.ApiResponse
-import io.swagger.annotations.ApiResponses
-import io.swagger.annotations.Authorization
+import io.swagger.annotations.*
 import org.rizki.mufrizal.boot.swagger.domain.Barang
 import org.rizki.mufrizal.boot.swagger.helpers.ErrorMessage
 import org.rizki.mufrizal.boot.swagger.helpers.ErrorRestHelper
@@ -43,7 +39,7 @@ import javax.validation.Valid
 @Api(value = "api", basePath = "/v1/api", description = "Barang REST API")
 class BarangController @Autowired constructor(val barangService: BarangService) : ValidationIdHelper {
 
-    @ApiOperation(value = "get all barang", authorizations = [Authorization(value = "basicAuth")])
+    @ApiOperation(value = "get all barang", authorizations = [Authorization(value = "basicAuth")], notes = "Get All Data From DB")
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "response success", response = PageBarang::class),
         ApiResponse(code = 404, message = "response 404", response = ErrorMessage::class),
@@ -56,7 +52,7 @@ class BarangController @Autowired constructor(val barangService: BarangService) 
         return ResponseEntity(this.barangService.getBarangs(pageable), HttpStatus.OK)
     }
 
-    @ApiOperation(value = "get one barang", authorizations = [Authorization(value = "basicAuth")])
+    @ApiOperation(value = "get one barang", authorizations = [Authorization(value = "basicAuth")], notes = "Get One Data From DB")
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "response success", response = Barang::class),
         ApiResponse(code = 404, message = "response 404", response = ErrorMessage::class),
@@ -65,12 +61,12 @@ class BarangController @Autowired constructor(val barangService: BarangService) 
         ApiResponse(code = 500, message = "response 500", response = ErrorMessage::class)
     ])
     @GetMapping(value = ["/barangs/{idBarang}"])
-    fun getBarang(@PathVariable("idBarang") idBarang: String): Barang {
+    fun getBarang(@PathVariable("idBarang") @ApiParam("ID Barang From Path Variable", name = "idBarang") idBarang: String): Barang {
         this.validateSelf(idBarang)
         return this.barangService.getBarang(idBarang).orElse(null)
     }
 
-    @ApiOperation(value = "save barang", authorizations = [Authorization(value = "basicAuth")])
+    @ApiOperation(value = "save barang", authorizations = [Authorization(value = "basicAuth")], notes = "Save Data Barang To DB")
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "response success", response = Barang::class),
         ApiResponse(code = 404, message = "response 404", response = ErrorMessage::class),
@@ -90,7 +86,7 @@ class BarangController @Autowired constructor(val barangService: BarangService) 
         return ResponseEntity(barang1, HttpStatus.CREATED)
     }
 
-    @ApiOperation(value = "update barang", authorizations = [Authorization(value = "basicAuth")])
+    @ApiOperation(value = "update barang", authorizations = [Authorization(value = "basicAuth")], notes = "Update Data Barang To DB")
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "response success", response = Barang::class),
         ApiResponse(code = 404, message = "response 404", response = ErrorMessage::class),
@@ -100,7 +96,7 @@ class BarangController @Autowired constructor(val barangService: BarangService) 
     ])
     @PutMapping(value = ["/barangs/{idBarang}"])
     fun updateBarangs(
-            @PathVariable("idBarang") idBarang: String,
+            @PathVariable("idBarang") @ApiParam("ID Barang From Path Variable", name = "idBarang") idBarang: String,
             @RequestBody @Valid barang: Barang): ResponseEntity<*> {
 
         this.validateSelf(idBarang)
@@ -114,7 +110,7 @@ class BarangController @Autowired constructor(val barangService: BarangService) 
         return ResponseEntity(barang1, HttpStatus.OK)
     }
 
-    @ApiOperation(value = "delete barang", authorizations = [Authorization(value = "basicAuth")])
+    @ApiOperation(value = "delete barang", authorizations = [Authorization(value = "basicAuth")], notes = "Delete Data Barang From DB")
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "response success", response = MappingMessage::class),
         ApiResponse(code = 404, message = "response 404", response = ErrorMessage::class),
@@ -124,7 +120,7 @@ class BarangController @Autowired constructor(val barangService: BarangService) 
     ])
     @DeleteMapping(value = ["/barangs/{idBarang}"])
     fun deleteBarangs(
-            @PathVariable("idBarang") idBarang: String): ResponseEntity<*> {
+            @PathVariable("idBarang") @ApiParam("ID Barang From Path Variable", name = "idBarang") idBarang: String): ResponseEntity<*> {
 
         this.validateSelf(idBarang)
 
